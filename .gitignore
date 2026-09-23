@@ -1,0 +1,25 @@
+# .NET
+**/bin/
+**/obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# React / Node
+**/node_modules/
+**/dist/
+
+# Environment files
+.env
+.env.*
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+# Project backup
+Inventory_Management.zip
