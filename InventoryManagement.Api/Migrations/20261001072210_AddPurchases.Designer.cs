@@ -3,6 +3,7 @@ using System;
 using InventoryManagement.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InventoryManagement.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20261001072210_AddPurchases")]
+    partial class AddPurchases
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,35 +46,6 @@ namespace InventoryManagement.Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("InventoryManagement.Api.Models.Customer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Address")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Phone")
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("InventoryManagement.Api.Models.Equipment", b =>
@@ -265,85 +239,6 @@ namespace InventoryManagement.Api.Migrations
                     b.ToTable("PurchaseItems");
                 });
 
-            modelBuilder.Entity("InventoryManagement.Api.Models.Sale", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<int?>("CustomerId")
-                        .HasColumnType("integer");
-
-                    b.Property<decimal>("Discount")
-                        .HasColumnType("numeric");
-
-                    b.Property<decimal>("GrandTotal")
-                        .HasColumnType("numeric");
-
-                    b.Property<string>("Remarks")
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("SaleDate")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("SaleNumber")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<decimal>("Subtotal")
-                        .HasColumnType("numeric");
-
-                    b.Property<decimal>("Tax")
-                        .HasColumnType("numeric");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
-
-                    b.ToTable("Sales");
-                });
-
-            modelBuilder.Entity("InventoryManagement.Api.Models.SaleItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("EquipmentId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("SaleId")
-                        .HasColumnType("integer");
-
-                    b.Property<decimal>("Total")
-                        .HasColumnType("numeric");
-
-                    b.Property<decimal>("UnitPrice")
-                        .HasColumnType("numeric");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EquipmentId");
-
-                    b.HasIndex("SaleId");
-
-                    b.ToTable("SaleItems");
-                });
-
             modelBuilder.Entity("InventoryManagement.Api.Models.StockTransaction", b =>
                 {
                     b.Property<int>("Id")
@@ -506,34 +401,6 @@ namespace InventoryManagement.Api.Migrations
                     b.Navigation("Purchase");
                 });
 
-            modelBuilder.Entity("InventoryManagement.Api.Models.Sale", b =>
-                {
-                    b.HasOne("InventoryManagement.Api.Models.Customer", "Customer")
-                        .WithMany("Sales")
-                        .HasForeignKey("CustomerId");
-
-                    b.Navigation("Customer");
-                });
-
-            modelBuilder.Entity("InventoryManagement.Api.Models.SaleItem", b =>
-                {
-                    b.HasOne("InventoryManagement.Api.Models.Equipment", "Equipment")
-                        .WithMany()
-                        .HasForeignKey("EquipmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InventoryManagement.Api.Models.Sale", "Sale")
-                        .WithMany("Items")
-                        .HasForeignKey("SaleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Equipment");
-
-                    b.Navigation("Sale");
-                });
-
             modelBuilder.Entity("InventoryManagement.Api.Models.StockTransaction", b =>
                 {
                     b.HasOne("InventoryManagement.Api.Models.Equipment", "Equipment")
@@ -556,17 +423,7 @@ namespace InventoryManagement.Api.Migrations
                     b.Navigation("Equipment");
                 });
 
-            modelBuilder.Entity("InventoryManagement.Api.Models.Customer", b =>
-                {
-                    b.Navigation("Sales");
-                });
-
             modelBuilder.Entity("InventoryManagement.Api.Models.Purchase", b =>
-                {
-                    b.Navigation("Items");
-                });
-
-            modelBuilder.Entity("InventoryManagement.Api.Models.Sale", b =>
                 {
                     b.Navigation("Items");
                 });

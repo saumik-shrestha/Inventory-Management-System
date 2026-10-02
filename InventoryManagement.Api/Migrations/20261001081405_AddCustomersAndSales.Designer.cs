@@ -3,6 +3,7 @@ using System;
 using InventoryManagement.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace InventoryManagement.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20261001081405_AddCustomersAndSales")]
+    partial class AddCustomersAndSales
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -276,13 +279,19 @@ namespace InventoryManagement.Api.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int?>("CustomerId")
+                    b.Property<int>("CustomerId")
                         .HasColumnType("integer");
 
                     b.Property<decimal>("Discount")
                         .HasColumnType("numeric");
 
                     b.Property<decimal>("GrandTotal")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("InvoiceNumber")
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("OtherCharges")
                         .HasColumnType("numeric");
 
                     b.Property<string>("Remarks")
@@ -510,7 +519,9 @@ namespace InventoryManagement.Api.Migrations
                 {
                     b.HasOne("InventoryManagement.Api.Models.Customer", "Customer")
                         .WithMany("Sales")
-                        .HasForeignKey("CustomerId");
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Customer");
                 });

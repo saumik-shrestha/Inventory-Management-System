@@ -1,3 +1,4 @@
+
 import "./Dashboard.css";
 import { useEffect, useState } from "react";
 import api from "../services/api";
@@ -27,7 +28,9 @@ function Dashboard() {
       if (error.response?.status === 401) {
         setError("Your session has expired. Please login again.");
       } else if (error.response?.status === 403) {
-        setError("You do not have permission to access the dashboard.");
+        setError(
+          "You do not have permission to access the dashboard."
+        );
       } else {
         setError("Unable to load dashboard.");
       }
@@ -66,61 +69,7 @@ function Dashboard() {
   return (
     <div className="dashboard-page">
 
-      {/* Sidebar */}
-      <aside className="sidebar">
-
-        <div className="sidebar-logo">
-          <h2>Inventory</h2>
-          <span>Management System</span>
-        </div>
-
-        <nav className="sidebar-nav">
-
-  <a href="/dashboard">
-    Dashboard
-  </a>
-
-  <a href="/equipment">
-    Equipment
-  </a>
-
-  <a href="/categories">
-    Categories
-  </a>
-
-  <a href="/suppliers">
-    Suppliers
-  </a>
-
-  <a href="/stock-transactions">
-    Stock Transactions
-  </a>
-
-  <a href="/assignments">
-    Assignments
-  </a>
-
-  <a href="/abc-analysis">
-    ABC Analysis
-  </a>
-
-  {user?.role === "admin" && (
-    <a href="/users">
-      Users
-    </a>
-  )}
-
-</nav>
-        <button
-          className="logout-button"
-          onClick={logout}
-        >
-          Logout
-        </button>
-
-      </aside>
-
-      {/* Main Content */}
+      {/* Main Dashboard Content */}
       <main className="dashboard-content">
 
         {/* Header */}
@@ -128,6 +77,7 @@ function Dashboard() {
 
           <div>
             <h1>Dashboard</h1>
+
             <p>
               Welcome back,{" "}
               <strong>
@@ -137,118 +87,190 @@ function Dashboard() {
           </div>
 
           <div className="user-info">
+
             <div className="user-avatar">
-              {(user?.fullName || user?.username || "U")
+              {(user?.fullName ||
+                user?.username ||
+                "U")
                 .charAt(0)
                 .toUpperCase()}
             </div>
 
             <div>
+
               <strong>
-                {user?.fullName || user?.username}
+                {user?.fullName ||
+                  user?.username}
               </strong>
 
               <span>
                 {user?.role}
               </span>
+
             </div>
+
           </div>
 
         </header>
 
+
         {/* Statistics */}
         <section className="stats-grid">
 
+          {/* Total Equipment */}
           <div className="stat-card">
+
             <div className="stat-icon">
               📦
             </div>
 
             <div>
               <p>Total Equipment</p>
-              <h2>{dashboard.totalEquipment}</h2>
+
+              <h2>
+                {dashboard.totalEquipment}
+              </h2>
             </div>
+
           </div>
 
+
+          {/* Total Stock */}
           <div className="stat-card">
+
             <div className="stat-icon">
               📊
             </div>
 
             <div>
               <p>Total Stock</p>
-              <h2>{dashboard.totalStock}</h2>
+
+              <h2>
+                {dashboard.totalStock}
+              </h2>
             </div>
+
           </div>
 
+
+          {/* Low Stock */}
           <div className="stat-card warning">
+
             <div className="stat-icon">
               ⚠️
             </div>
 
             <div>
               <p>Low Stock</p>
-              <h2>{dashboard.lowStock}</h2>
+
+              <h2>
+                {dashboard.lowStock}
+              </h2>
             </div>
+
           </div>
 
+
+          {/* Suppliers */}
           <div className="stat-card">
+
             <div className="stat-icon">
               🚚
             </div>
 
             <div>
               <p>Suppliers</p>
-              <h2>{dashboard.totalSuppliers}</h2>
+
+              <h2>
+                {dashboard.totalSuppliers}
+              </h2>
             </div>
+
           </div>
 
+
+          {/* Users */}
           <div className="stat-card">
+
             <div className="stat-icon">
               👥
             </div>
 
             <div>
               <p>Users</p>
-              <h2>{dashboard.totalUsers}</h2>
+
+              <h2>
+                {dashboard.totalUsers}
+              </h2>
             </div>
+
           </div>
 
+
+          {/* Assigned Equipment */}
           <div className="stat-card">
+
             <div className="stat-icon">
               💻
             </div>
 
             <div>
               <p>Assigned Equipment</p>
-              <h2>{dashboard.assignedEquipment}</h2>
+
+              <h2>
+                {dashboard.assignedEquipment}
+              </h2>
             </div>
+
           </div>
 
         </section>
+
 
         {/* Recent Transactions */}
         <section className="recent-section">
 
           <div className="section-header">
+
             <div>
-              <h2>Recent Transactions</h2>
-              <p>Latest inventory movements</p>
+
+              <h2>
+                Recent Transactions
+              </h2>
+
+              <p>
+                Latest inventory movements
+              </p>
+
             </div>
 
             <div className="transaction-count">
-              Total: {dashboard.totalTransactions}
+
+              Total:{" "}
+              {dashboard.totalTransactions}
+
             </div>
+
           </div>
 
+
+          {/* No Transactions */}
           {dashboard.recentTransactions?.length === 0 ? (
 
             <div className="empty-state">
-              <div>📋</div>
-              <h3>No transactions yet</h3>
+
+              <div>
+                📋
+              </div>
+
+              <h3>
+                No transactions yet
+              </h3>
+
               <p>
                 Stock transactions will appear here.
               </p>
+
             </div>
 
           ) : (
@@ -258,22 +280,46 @@ function Dashboard() {
               <table className="transaction-table">
 
                 <thead>
+
                   <tr>
-                    <th>Equipment</th>
-                    <th>Code</th>
-                    <th>Type</th>
-                    <th>Quantity</th>
-                    <th>Date</th>
-                    <th>Remarks</th>
+
+                    <th>
+                      Equipment
+                    </th>
+
+                    <th>
+                      Code
+                    </th>
+
+                    <th>
+                      Type
+                    </th>
+
+                    <th>
+                      Quantity
+                    </th>
+
+                    <th>
+                      Date
+                    </th>
+
+                    <th>
+                      Remarks
+                    </th>
+
                   </tr>
+
                 </thead>
+
 
                 <tbody>
 
                   {dashboard.recentTransactions.map(
                     (transaction) => (
 
-                      <tr key={transaction.id}>
+                      <tr
+                        key={transaction.id}
+                      >
 
                         <td>
                           {transaction.equipment?.name ||
@@ -282,10 +328,12 @@ function Dashboard() {
 
                         <td>
                           {transaction.equipment
-                            ?.equipmentCode || "-"}
+                            ?.equipmentCode ||
+                            "-"}
                         </td>
 
                         <td>
+
                           <span
                             className={
                               transaction.transactionType ===
@@ -296,6 +344,7 @@ function Dashboard() {
                           >
                             {transaction.transactionType}
                           </span>
+
                         </td>
 
                         <td>
@@ -309,7 +358,8 @@ function Dashboard() {
                         </td>
 
                         <td>
-                          {transaction.remarks || "-"}
+                          {transaction.remarks ||
+                            "-"}
                         </td>
 
                       </tr>

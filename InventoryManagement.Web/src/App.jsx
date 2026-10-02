@@ -1,4 +1,10 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Equipment from "./pages/Equipment";
@@ -8,114 +14,220 @@ import Categories from "./pages/Categories";
 import Transactions from "./pages/Transactions";
 import ABCAnalysis from "./pages/ABCAnalysis";
 import Users from "./pages/Users";
+import Purchases from "./pages/Purchases";
+import Sales from "./pages/Sales";
+import Customers from "./pages/Customers";
+
+import MainLayout from "./components/MainLayout";
 
 
 function App() {
   return (
     <BrowserRouter>
+
       <Routes>
 
-        {/* Login */}
+        {/* ====================================== */}
+        {/* LOGIN */}
+        {/* ====================================== */}
+
         <Route
           path="/login"
           element={<Login />}
         />
 
-        {/* Dashboard */}
+
+        {/* ====================================== */}
+        {/* PROTECTED PAGES */}
+        {/* ====================================== */}
+
         <Route
           path="/dashboard"
           element={
             <ProtectedRoute>
-              <Dashboard />
+              <MainLayout>
+                <Dashboard />
+              </MainLayout>
             </ProtectedRoute>
           }
         />
 
-        {/* Equipment */}
+
         <Route
           path="/equipment"
           element={
             <ProtectedRoute>
-              <Equipment />
+              <MainLayout>
+                <Equipment />
+              </MainLayout>
             </ProtectedRoute>
           }
         />
 
-        {/* Home */}
+
+        <Route
+          path="/assignments"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <Assignment />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        />
+
+
+        <Route
+          path="/suppliers"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <Suppliers />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        />
+
+
+        <Route
+          path="/categories"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <Categories />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        />
+
+
+        <Route
+          path="/stock-transactions"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <Transactions />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        />
+
+
+        <Route
+          path="/abc-analysis"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <ABCAnalysis />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        />
+
+
+        <Route
+          path="/users"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <Users />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        />
+
+
+        <Route
+          path="/purchases"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <Purchases />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        />
+
+
+        <Route
+          path="/sales"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <Sales />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        />
+
+
+        <Route
+          path="/customers"
+          element={
+            <ProtectedRoute>
+              <MainLayout>
+                <Customers />
+              </MainLayout>
+            </ProtectedRoute>
+          }
+        />
+
+
+        {/* ====================================== */}
+        {/* DEFAULT */}
+        {/* ====================================== */}
+
         <Route
           path="/"
-          element={<Navigate to="/login" replace />}
+          element={
+            <Navigate
+              to="/login"
+              replace
+            />
+          }
         />
 
-        {/* Unknown URL */}
+
+        {/* ====================================== */}
+        {/* UNKNOWN URL */}
+        {/* ====================================== */}
+
         <Route
           path="*"
-          element={<Navigate to="/login" replace />}
+          element={
+            <Navigate
+              to="/login"
+              replace
+            />
+          }
         />
-        <Route
-  path="/assignments"
-  element={
-    <ProtectedRoute>
-      <Assignment />
-    </ProtectedRoute>
-  }
-/>
-<Route
-  path="/suppliers"
-  element={
-    <ProtectedRoute>
-      <Suppliers />
-    </ProtectedRoute>
-  }
-/>
-<Route
-  path="/categories"
-  element={
-    <ProtectedRoute>
-      <Categories />
-    </ProtectedRoute>
-  }
-/>
-
-<Route
-  path="/stock-transactions"
-  element={
-    <ProtectedRoute>
-      <Transactions />
-    </ProtectedRoute>
-  }
-/>
-<Route
-  path="/abc-analysis"
-  element={
-    <ProtectedRoute>
-      <ABCAnalysis />
-    </ProtectedRoute>
-  }
-/>
-<Route
-  path="/users"
-  element={
-    <ProtectedRoute>
-      <Users />
-    </ProtectedRoute>
-  }
-/>
- 
 
       </Routes>
+
     </BrowserRouter>
   );
 }
 
+
+/* ========================================== */
+/* PROTECTED ROUTE */
+/* ========================================== */
+
 function ProtectedRoute({ children }) {
+
   const token = localStorage.getItem("token");
 
   if (!token) {
-    return <Navigate to="/login" replace />;
+    return (
+      <Navigate
+        to="/login"
+        replace
+      />
+    );
   }
 
   return children;
 }
+
 
 export default App;

@@ -4,6 +4,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using InventoryManagement.Api.Data;
 using Microsoft.EntityFrameworkCore;
+using InventoryManagement.Api.Repositories;
+using InventoryManagement.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,7 +28,7 @@ var jwtKey = builder.Configuration["Jwt:Key"];
 
 if (string.IsNullOrWhiteSpace(jwtKey))
 {
-    throw new Exception("JWT Key is missing from appsettings.json");
+    throw new Exception("JWT Key is missing from User Secrets");
 }
 
 builder.Services.AddAuthentication(options =>
@@ -81,6 +83,14 @@ builder.Services.AddAuthorization();
 // ========================================
 
 builder.Services.AddControllers();
+
+
+// ========================================
+// PURCHASE SERVICES
+// ========================================
+
+builder.Services.AddScoped<PurchaseRepository>();
+builder.Services.AddScoped<PurchaseService>();
 
 
 // ========================================
